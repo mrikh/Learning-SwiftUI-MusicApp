@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4655E8D325E5A39C00579051 /* MiniPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4655E8D225E5A39B00579051 /* MiniPlayer.swift */; };
+		466635B825EAECC80040CB8A /* PartyMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466635B725EAECC80040CB8A /* PartyMode.swift */; };
+		466635BC25EAF6660040CB8A /* PlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466635BB25EAF6660040CB8A /* PlaylistView.swift */; };
+		4666540225EC2D630017D3D1 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666540125EC2D630017D3D1 /* BluetoothManager.swift */; };
 		467B47F225E9AD05005F241E /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467B47F125E9AD05005F241E /* AudioPlayer.swift */; };
 		46A4DF1925E43C6E00D8B0DF /* MrMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A4DF1825E43C6E00D8B0DF /* MrMusicApp.swift */; };
 		46A4DF1B25E43C6E00D8B0DF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A4DF1A25E43C6E00D8B0DF /* ContentView.swift */; };
@@ -22,6 +25,9 @@
 
 /* Begin PBXFileReference section */
 		4655E8D225E5A39B00579051 /* MiniPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayer.swift; sourceTree = "<group>"; };
+		466635B725EAECC80040CB8A /* PartyMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyMode.swift; sourceTree = "<group>"; };
+		466635BB25EAF6660040CB8A /* PlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistView.swift; sourceTree = "<group>"; };
+		4666540125EC2D630017D3D1 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		467B47F125E9AD05005F241E /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		46A4DF1525E43C6E00D8B0DF /* MrMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MrMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46A4DF1825E43C6E00D8B0DF /* MrMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MrMusicApp.swift; sourceTree = "<group>"; };
@@ -47,6 +53,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		466635B225EAEC360040CB8A /* Party Mode */ = {
+			isa = PBXGroup;
+			children = (
+				466635B725EAECC80040CB8A /* PartyMode.swift */,
+				4666540125EC2D630017D3D1 /* BluetoothManager.swift */,
+			);
+			path = "Party Mode";
+			sourceTree = "<group>";
+		};
+		466635BA25EAF64F0040CB8A /* Playlists */ = {
+			isa = PBXGroup;
+			children = (
+				466635BB25EAF6660040CB8A /* PlaylistView.swift */,
+			);
+			path = Playlists;
+			sourceTree = "<group>";
+		};
 		46A4DF0C25E43C6E00D8B0DF = {
 			isa = PBXGroup;
 			children = (
@@ -87,6 +110,7 @@
 		46A4DF2C25E446C400D8B0DF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				466635B225EAEC360040CB8A /* Party Mode */,
 				46A4DF3025E44C5400D8B0DF /* Library */,
 				46A4DF1A25E43C6E00D8B0DF /* ContentView.swift */,
 			);
@@ -96,6 +120,7 @@
 		46A4DF3025E44C5400D8B0DF /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				466635BA25EAF64F0040CB8A /* Playlists */,
 				46A4DF4025E5687E00D8B0DF /* Songs */,
 				46A4DF3125E44C7000D8B0DF /* LibraryView.swift */,
 				46A4DF3D25E536A300D8B0DF /* LibraryRow.swift */,
@@ -196,10 +221,13 @@
 				467B47F225E9AD05005F241E /* AudioPlayer.swift in Sources */,
 				46A4DF1925E43C6E00D8B0DF /* MrMusicApp.swift in Sources */,
 				46A4DF4225E56AAC00D8B0DF /* SongsListing.swift in Sources */,
+				466635BC25EAF6660040CB8A /* PlaylistView.swift in Sources */,
 				46A4DF3725E535E600D8B0DF /* MusicDataStore.swift in Sources */,
 				4655E8D325E5A39C00579051 /* MiniPlayer.swift in Sources */,
 				46A4DF3E25E536A300D8B0DF /* LibraryRow.swift in Sources */,
 				46A4DF4625E56D6000D8B0DF /* SongsListingRow.swift in Sources */,
+				4666540225EC2D630017D3D1 /* BluetoothManager.swift in Sources */,
+				466635B825EAECC80040CB8A /* PartyMode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

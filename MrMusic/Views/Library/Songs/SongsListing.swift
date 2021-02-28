@@ -13,8 +13,8 @@ struct SongsListing: View {
     @EnvironmentObject var musicStore : MusicDataStore
     @State private var searchText : String = ""
     @State private var isPlaying = false
-    
     @State private var selectedItem : MPMediaItem?
+    
     private var songs : [MPMediaItem]{
         
         if searchText.isEmpty {return musicStore.songs}
@@ -40,8 +40,12 @@ struct SongsListing: View {
                         SongsListingRow(mediaItem: mediaItem)
                     })
                 }
+                .onDelete(perform: { indexSet in
+                    musicStore.delete(at: indexSet)
+                })
             }
             .navigationTitle("Songs")
+            
             
             if selectedItem != nil{
                 ZStack{

@@ -11,6 +11,7 @@ final class MusicDataStore : ObservableObject{
     
     @Published var songs : [MPMediaItem] = []
     @Published var authorizationStatus : MPMediaLibraryAuthorizationStatus?
+    @Published var playlists : [MPMediaPlaylist] = []
     
     init(){
         
@@ -21,15 +22,24 @@ final class MusicDataStore : ObservableObject{
         }
     }
     
+    func delete(at offsets : IndexSet){
+        songs.remove(atOffsets: offsets)
+    }
     
     private func fetchSongs(){
         
         let query = MPMediaQuery.songs()
-        guard let items = query.items else {return}
+        if let items = query.items{
+            DispatchQueue.main.async{ [weak self] in
+                self?.songs = items
+            }
+        }
         
-        let collection = MPMediaItemCollection(items: items)
-        DispatchQueue.main.async{ [weak self] in
-            self?.songs = collection.items
+        let playListQuery = MPMediaQuery.playlists()
+        if let items = playListQuery.collections as? [MPMediaPlaylist]{
+            DispatchQueue.main.async{ [weak self] in
+                self?.playlists = items
+            }
         }
     }
 }

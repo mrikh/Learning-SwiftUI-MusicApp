@@ -14,7 +14,6 @@ class AudioPlayer{
     func configure(url : URL) -> String?{
         
         do{
-            try AVAudioSession.sharedInstance().setCategory(.playback)
             self.audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.prepareToPlay()
             audioPlayer?.volume = 0.3

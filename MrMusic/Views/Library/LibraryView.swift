@@ -18,7 +18,9 @@ struct LibraryView: View {
                 NavigationLink(destination: SongsListing()){
                     LibraryRow(title: "Songs", imageName: "music.note")
                 }
-                LibraryRow(title: "Playlists", imageName: "music.note.list")
+                NavigationLink(destination: PlaylistView()){ 
+                    LibraryRow(title: "Playlists", imageName: "music.note.list")
+                }
                 LibraryRow(title: "Albums", imageName: "rectangle.stack")
                 LibraryRow(title: "Favourites", imageName: "star")
                 LibraryRow(title: "Compilations", imageName: "music.quarternote.3")
