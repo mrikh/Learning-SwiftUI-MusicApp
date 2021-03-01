@@ -18,7 +18,7 @@ struct PartyMode: View {
             currentItems = currentPlaylist?.items ?? [MPMediaItem]()
         }
     }
-    @StateObject var bluetoothManager : BluetoothManager = BluetoothManager()
+    @EnvironmentObject var bluetoothManager : BluetoothManager
     @State private var showAlert : Bool = false
     @State private var mode : Mode = .bluetooth
     
@@ -73,6 +73,7 @@ struct PartyMode: View {
                     SongsListingRow(mediaItem: mediaItem)
                 }
                 .onMove(perform: move)
+                
             }else{
                 Button(action: {
                     showingDetail.toggle()
@@ -92,6 +93,7 @@ struct PartyMode: View {
         }
         .navigationTitle("Party Mode")
         .onAppear{
+            showAlert = !bluetoothManager.enabled
             bluetoothManager.errorHandler = {
                 showAlert = true
             }

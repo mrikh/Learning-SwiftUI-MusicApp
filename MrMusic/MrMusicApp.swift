@@ -12,6 +12,8 @@ struct MrMusicApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(MusicDataStore())
+                .environmentObject(BluetoothManager())
         }
     }
 }

@@ -49,7 +49,7 @@ struct SongsListing: View {
             
             if selectedItem != nil{
                 ZStack{
-                    Color.white
+                    Color(UIColor.systemBackground)
                         .shadow(radius: 2.0)
                     MiniPlayer(mediaItem: selectedItem!)
                 }

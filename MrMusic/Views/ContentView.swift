@@ -11,7 +11,6 @@ import AVKit
 struct ContentView: View {
     
     @State private var current: Tab = .library
-    @StateObject private var musicStore = MusicDataStore()
     
     enum Tab{
         case library
@@ -24,7 +23,6 @@ struct ContentView: View {
         
         TabView(selection: $current){
             LibraryView()
-                .environmentObject(musicStore)
                 .tabItem{
                     Label("Library", systemImage : current == .library ? "music.note.house.fill" : "music.note.house")
                 }
@@ -32,7 +30,6 @@ struct ContentView: View {
             NavigationView{
                 PartyMode()
             }
-            .environmentObject(musicStore)
             .tabItem{
                 Label("Party Mode", systemImage : current == .partyMode ? "hifispeaker.fill" : "hifispeaker")
             }
