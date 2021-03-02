@@ -10,8 +10,8 @@ import SwiftUI
 
 struct SelectDevice: View {
     
-    @EnvironmentObject var bluetoothManager : BluetoothManager
-    @State private var showAlert = false
+    @EnvironmentObject var centralManager : CentralManager
+    var completion : (()->())?
     
     var body: some View {
         List{
@@ -22,17 +22,18 @@ struct SelectDevice: View {
                     .progressViewStyle(CircularProgressViewStyle())
             }
             
-            ForEach(bluetoothManager.bluetoothDevicesList, id: \.identifier) { (peripheral: CBPeripheral) in
-                Text(peripheral.name ?? "Name not found")
+            ForEach(centralManager.bluetoothDevicesList, id: \.identifier) { (peripheral: CBPeripheral) in
+
+                Button(peripheral.name ?? "Name not found") {
+                    centralManager.selectedDevice = peripheral
+                    completion?()
+                }
             }
         }
         .onAppear{
-            bluetoothManager.errorHandler = {
-                showAlert = true
-            }
-            bluetoothManager.startScan()
+            centralManager.startScan()
         }
-        .alert(isPresented: $showAlert) {
+        .alert(isPresented: $centralManager.disabled) {
             Alert(title: Text("Oops"), message: Text("Enable bluetooth to dynamically update playlist"), dismissButton: .default(Text("Okay")))
         }
     }

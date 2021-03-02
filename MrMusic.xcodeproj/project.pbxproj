@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		462B74ED25ED861B00AC1E57 /* PeripheralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B74EC25ED861B00AC1E57 /* PeripheralManager.swift */; };
+		462B74F525ED86FE00AC1E57 /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B74F425ED86FE00AC1E57 /* Services.swift */; };
 		4655E8D325E5A39C00579051 /* MiniPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4655E8D225E5A39B00579051 /* MiniPlayer.swift */; };
 		466635B825EAECC80040CB8A /* PartyMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466635B725EAECC80040CB8A /* PartyMode.swift */; };
 		466635BC25EAF6660040CB8A /* PlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466635BB25EAF6660040CB8A /* PlaylistView.swift */; };
-		4666540225EC2D630017D3D1 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666540125EC2D630017D3D1 /* BluetoothManager.swift */; };
+		4666540225EC2D630017D3D1 /* CentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666540125EC2D630017D3D1 /* CentralManager.swift */; };
 		4666540825EC6DE00017D3D1 /* SelectDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666540725EC6DE00017D3D1 /* SelectDevice.swift */; };
 		467B47F225E9AD05005F241E /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467B47F125E9AD05005F241E /* AudioPlayer.swift */; };
 		46A4DF1925E43C6E00D8B0DF /* MrMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A4DF1825E43C6E00D8B0DF /* MrMusicApp.swift */; };
@@ -25,10 +27,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		462B74EC25ED861B00AC1E57 /* PeripheralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralManager.swift; sourceTree = "<group>"; };
+		462B74F425ED86FE00AC1E57 /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
+		462B74FB25ED8CD600AC1E57 /* MrMusic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MrMusic.entitlements; sourceTree = "<group>"; };
 		4655E8D225E5A39B00579051 /* MiniPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayer.swift; sourceTree = "<group>"; };
 		466635B725EAECC80040CB8A /* PartyMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyMode.swift; sourceTree = "<group>"; };
 		466635BB25EAF6660040CB8A /* PlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistView.swift; sourceTree = "<group>"; };
-		4666540125EC2D630017D3D1 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		4666540125EC2D630017D3D1 /* CentralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralManager.swift; sourceTree = "<group>"; };
 		4666540725EC6DE00017D3D1 /* SelectDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDevice.swift; sourceTree = "<group>"; };
 		467B47F125E9AD05005F241E /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		46A4DF1525E43C6E00D8B0DF /* MrMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MrMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +60,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		462B74EF25ED861F00AC1E57 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				4666540125EC2D630017D3D1 /* CentralManager.swift */,
+				462B74EC25ED861B00AC1E57 /* PeripheralManager.swift */,
+				462B74F425ED86FE00AC1E57 /* Services.swift */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		462B74F225ED863000AC1E57 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				462B74EF25ED861F00AC1E57 /* Bluetooth */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		466635B225EAEC360040CB8A /* Party Mode */ = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +113,8 @@
 		46A4DF1725E43C6E00D8B0DF /* MrMusic */ = {
 			isa = PBXGroup;
 			children = (
+				462B74FB25ED8CD600AC1E57 /* MrMusic.entitlements */,
+				462B74F225ED863000AC1E57 /* Controllers */,
 				46A4DF3525E535D700D8B0DF /* Model */,
 				46A4DF2C25E446C400D8B0DF /* Views */,
 				46A4DF1825E43C6E00D8B0DF /* MrMusicApp.swift */,
@@ -133,7 +158,6 @@
 		46A4DF3525E535D700D8B0DF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4666540125EC2D630017D3D1 /* BluetoothManager.swift */,
 				46A4DF3625E535E600D8B0DF /* MusicDataStore.swift */,
 			);
 			path = Model;
@@ -224,13 +248,15 @@
 				467B47F225E9AD05005F241E /* AudioPlayer.swift in Sources */,
 				46A4DF1925E43C6E00D8B0DF /* MrMusicApp.swift in Sources */,
 				46A4DF4225E56AAC00D8B0DF /* SongsListing.swift in Sources */,
+				462B74ED25ED861B00AC1E57 /* PeripheralManager.swift in Sources */,
 				466635BC25EAF6660040CB8A /* PlaylistView.swift in Sources */,
 				46A4DF3725E535E600D8B0DF /* MusicDataStore.swift in Sources */,
 				4655E8D325E5A39C00579051 /* MiniPlayer.swift in Sources */,
 				4666540825EC6DE00017D3D1 /* SelectDevice.swift in Sources */,
+				462B74F525ED86FE00AC1E57 /* Services.swift in Sources */,
 				46A4DF3E25E536A300D8B0DF /* LibraryRow.swift in Sources */,
 				46A4DF4625E56D6000D8B0DF /* SongsListingRow.swift in Sources */,
-				4666540225EC2D630017D3D1 /* BluetoothManager.swift in Sources */,
+				4666540225EC2D630017D3D1 /* CentralManager.swift in Sources */,
 				466635B825EAECC80040CB8A /* PartyMode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,6 +385,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MrMusic/MrMusic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"MrMusic/Preview Content\"";
 				DEVELOPMENT_TEAM = NL38PKJFTM;
@@ -371,8 +398,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.MrMusic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
 		};
@@ -381,6 +410,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MrMusic/MrMusic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"MrMusic/Preview Content\"";
 				DEVELOPMENT_TEAM = NL38PKJFTM;
@@ -393,8 +423,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.MrMusic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
 		};

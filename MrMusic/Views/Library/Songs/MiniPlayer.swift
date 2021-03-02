@@ -14,10 +14,8 @@ struct MiniPlayer: View {
     let mediaItem : MPMediaItem
     @State private var audioPlayer : AudioPlayer = AudioPlayer()
     @State private var errorString : String?
-    @State private var showAlertBluetooth : Bool = false
     @State private var isPlaying : Bool = true
-    @State private var showDevicesListing : Bool = false
-    @EnvironmentObject var bluetoothManager : BluetoothManager
+    @StateObject var peripheralManager = PeripheralManager()
     
     var body: some View {
         ZStack {
@@ -33,10 +31,7 @@ struct MiniPlayer: View {
                             .foregroundColor(Color(UIColor.systemBlue))
                     })
                     Button(action : {
-                        showAlertBluetooth = !bluetoothManager.enabled
-                        if bluetoothManager.enabled{
-                            showDevicesListing = true
-                        }
+                        peripheralManager.startAdvertising()
                     }, label: {
                         Image(systemName: "square.and.arrow.up.fill")
                             .foregroundColor(Color(UIColor.systemBlue))
@@ -48,26 +43,22 @@ struct MiniPlayer: View {
             }
         }
         .onAppear{
+            peripheralManager.musicItem = self.mediaItem
             reconfigurePlayer(mediaItem)
-            bluetoothManager.errorHandler = {
-                showAlert = true
-            }
         }
         .onChange(of: mediaItem) { value in
+            peripheralManager.musicItem = value
             reconfigurePlayer(value)
         }
         .onDisappear{
             audioPlayer.clean()
         }
-        .alert(isPresented: $showAlert, content: {
+        .alert(isPresented: $showAlert){
             Alert(title: Text("Alert"), message: Text(errorString ?? "Something went wrong"), dismissButton: .default(Text("Okay")))
-        })
-        .alert(isPresented: $showAlertBluetooth){
+        }
+        .alert(isPresented: $peripheralManager.disabled){
             Alert(title: Text("Oops"), message: Text("Enable bluetooth to dynamically update playlist"), dismissButton: .default(Text("Okay")))
         }
-        .sheet(isPresented: $showDevicesListing, content: {
-            SelectDevice()
-        })
     }
     
     private func reconfigurePlayer(_ mediaItem : MPMediaItem){

@@ -13,7 +13,6 @@ struct MrMusicApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(MusicDataStore())
-                .environmentObject(BluetoothManager())
         }
     }
 }

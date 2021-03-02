@@ -11,14 +11,17 @@ import SwiftUI
 
 struct PartyMode: View {
     
+    @StateObject var centralManager = CentralManager()
     @EnvironmentObject var musicStore : MusicDataStore
+    
+    @State private var showDevicesListing = false
     @State private var showingDetail = false
     @State private var currentPlaylist : MPMediaPlaylist?{
         didSet{
             currentItems = currentPlaylist?.items ?? [MPMediaItem]()
         }
     }
-    @EnvironmentObject var bluetoothManager : BluetoothManager
+    
     @State private var showAlert : Bool = false
     @State private var mode : Mode = .bluetooth
     
@@ -74,6 +77,9 @@ struct PartyMode: View {
                 }
                 .onMove(perform: move)
                 
+                Button("Start Scanning") {
+                    showDevicesListing = true
+                }
             }else{
                 Button(action: {
                     showingDetail.toggle()
@@ -88,17 +94,20 @@ struct PartyMode: View {
                 })
             }
         }
+        .sheet(isPresented: $showDevicesListing){
+            SelectDevice() {
+                showDevicesListing = false
+            }
+            .environmentObject(centralManager)
+        }
         .toolbar{
             EditButton()
         }
         .navigationTitle("Party Mode")
-        .onAppear{
-            showAlert = !bluetoothManager.enabled
-            bluetoothManager.errorHandler = {
-                showAlert = true
-            }
+        .onDisappear{
+            centralManager.stopScan()
         }
-        .alert(isPresented: $showAlert){
+        .alert(isPresented: $centralManager.disabled){
             Alert(title: Text("Oops"), message: Text("Enable bluetooth to dynamically update playlist"), dismissButton: .default(Text("Okay")))
         }
     }
