@@ -10,12 +10,15 @@ import SwiftUI
 
 struct MiniPlayer: View {
     
+    @State private var mode : PartyMode.Mode = .network
     @State private var showAlert : Bool = false
     let mediaItem : MPMediaItem
     @State private var audioPlayer : AudioPlayer = AudioPlayer()
     @State private var errorString : String?
     @State private var isPlaying : Bool = true
     @StateObject var peripheralManager = PeripheralManager()
+    @StateObject var multipeerManager = MultipeerConnectionManager()
+    @State private var showSelect = false
     
     var body: some View {
         ZStack {
@@ -31,7 +34,11 @@ struct MiniPlayer: View {
                             .foregroundColor(Color(UIColor.systemBlue))
                     })
                     Button(action : {
-                        peripheralManager.startAdvertising()
+                        if mode == .bluetooth{
+                            peripheralManager.startAdvertising()
+                        }else{
+                            showSelect = true
+                        }
                     }, label: {
                         Image(systemName: "square.and.arrow.up.fill")
                             .foregroundColor(Color(UIColor.systemBlue))
@@ -43,11 +50,20 @@ struct MiniPlayer: View {
             }
         }
         .onAppear{
-            peripheralManager.musicItem = self.mediaItem
+            if mode == .bluetooth{
+                peripheralManager.musicItem = self.mediaItem
+            }else{
+                multipeerManager.musicItemToSend = self.mediaItem
+            }
+            
             reconfigurePlayer(mediaItem)
         }
         .onChange(of: mediaItem) { value in
-            peripheralManager.musicItem = value
+            if mode == .bluetooth{
+                peripheralManager.musicItem = value
+            }else{
+                multipeerManager.musicItemToSend = value
+            }
             reconfigurePlayer(value)
         }
         .onDisappear{
@@ -60,8 +76,15 @@ struct MiniPlayer: View {
             Alert(title: Text("Oops"), message: Text("Enable bluetooth to dynamically update playlist"), dismissButton: .default(Text("Okay")))
         }
         .alert(isPresented: $peripheralManager.showUnsubscribedAlert) {
-            
+
             Alert(title: Text("Oops"), message: Text("You have been unsubscribed"), dismissButton: .default(Text("Okay")))
+        }
+        .sheet(isPresented: $showSelect) {
+            SelectDevice(mode: .network){
+                showAlert = false
+            }
+            .environmentObject(CentralManager())
+            .environmentObject(multipeerManager)
         }
     }
     

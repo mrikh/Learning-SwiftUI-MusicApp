@@ -12,6 +12,8 @@ import SwiftUI
 struct PartyMode: View {
     
     @StateObject var centralManager = CentralManager()
+    @StateObject var multipeerManager = MultipeerConnectionManager()
+    
     @EnvironmentObject var musicStore : MusicDataStore
     
     @State private var showDevicesListing = false
@@ -73,8 +75,13 @@ struct PartyMode: View {
                 })
                 
                 Button("Start Scanning") {
-                    centralManager.cleanup()
-                    showDevicesListing = true
+                    
+                    if mode == .bluetooth{
+                        centralManager.cleanup()
+                        showDevicesListing = true
+                    }else{
+                        multipeerManager.advertisingUpdate(start: true)
+                    }
                 }
                 
                 ForEach(currentItems, id: \.persistentID){ mediaItem in
@@ -96,7 +103,7 @@ struct PartyMode: View {
             }
         }
         .sheet(isPresented: $showDevicesListing){
-            SelectDevice() {
+            SelectDevice(mode: mode) {
                 showDevicesListing = false
             }
             .environmentObject(centralManager)
@@ -106,14 +113,29 @@ struct PartyMode: View {
         }
         .navigationTitle("Party Mode")
         .onDisappear{
-            centralManager.cleanup()
-            centralManager.stopScan()
+            if mode == .bluetooth{
+                centralManager.cleanup()
+            }else{
+                multipeerManager.advertisingUpdate(start: false)
+            }
+        }
+        .onAppear{
+            multipeerManager.musicReceiveHandler = { music in
+                currentItems.append(music)
+            }
         }
         .alert(isPresented: $centralManager.disabled){
             Alert(title: Text("Oops"), message: Text("Enable bluetooth to dynamically update playlist"), dismissButton: .default(Text("Okay")))
         }
         .alert(isPresented: $centralManager.showReceivedString){
             Alert(title: Text("Oops"), message: Text("Received string: " + centralManager.receivedString), dismissButton: .default(Text("Okay")))
+        }
+        .alert(isPresented: $multipeerManager.showAlert){
+            Alert(title: Text("Oops"), message: Text(multipeerManager.alertString ?? "Something went wrong"), primaryButton: .default(Text("Yes")){
+                multipeerManager.invitation(accept: true)
+            }, secondaryButton: .default(Text("No")){
+                multipeerManager.invitation(accept: false)
+            })
         }
     }
     

@@ -29,21 +29,21 @@ class PeripheralManager: NSObject, ObservableObject{
     }
     
     func startAdvertising(){
-        peripheralManager.startAdvertising([CBAdvertisementDataLocalNameKey : "MrMusic",  CBAdvertisementDataServiceUUIDsKey: [Services.TransferUUID]])
+//        peripheralManager.startAdvertising([CBAdvertisementDataLocalNameKey : "MrMusic",  CBAdvertisementDataServiceUUIDsKey: [Services.TransferUUID]])
     }
     
     func stopAdvertising(){
-        peripheralManager.stopAdvertising()
+//        peripheralManager.stopAdvertising()
     }
     
     private func setupPeripheral(){
         
-        let transferCharacteristic = CBMutableCharacteristic(type: Services.CharacteristicUUID, properties: [.notify, .writeWithoutResponse], value: nil, permissions: [.readable, .writeable])
-        let transferService = CBMutableService(type: Services.TransferUUID, primary: true)
-        
-        transferService.characteristics = [transferCharacteristic]
-        peripheralManager.add(transferService)
-        self.transferCharacteristic = transferCharacteristic
+//        let transferCharacteristic = CBMutableCharacteristic(type: Services.CharacteristicUUID, properties: [.notify, .writeWithoutResponse], value: nil, permissions: [.readable, .writeable])
+//        let transferService = CBMutableService(type: Services.TransferUUID, primary: true)
+//        
+//        transferService.characteristics = [transferCharacteristic]
+//        peripheralManager.add(transferService)
+//        self.transferCharacteristic = transferCharacteristic
     }
     
     private static var sendingEOM = false

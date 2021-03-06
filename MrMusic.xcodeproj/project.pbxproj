@@ -14,6 +14,7 @@
 		466635BC25EAF6660040CB8A /* PlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466635BB25EAF6660040CB8A /* PlaylistView.swift */; };
 		4666540225EC2D630017D3D1 /* CentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666540125EC2D630017D3D1 /* CentralManager.swift */; };
 		4666540825EC6DE00017D3D1 /* SelectDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666540725EC6DE00017D3D1 /* SelectDevice.swift */; };
+		466E53D825F3F9330062D1EB /* MultipeerConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466E53D725F3F9330062D1EB /* MultipeerConnectionManager.swift */; };
 		467B47F225E9AD05005F241E /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467B47F125E9AD05005F241E /* AudioPlayer.swift */; };
 		46A4DF1925E43C6E00D8B0DF /* MrMusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A4DF1825E43C6E00D8B0DF /* MrMusicApp.swift */; };
 		46A4DF1B25E43C6E00D8B0DF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A4DF1A25E43C6E00D8B0DF /* ContentView.swift */; };
@@ -35,6 +36,7 @@
 		466635BB25EAF6660040CB8A /* PlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistView.swift; sourceTree = "<group>"; };
 		4666540125EC2D630017D3D1 /* CentralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralManager.swift; sourceTree = "<group>"; };
 		4666540725EC6DE00017D3D1 /* SelectDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDevice.swift; sourceTree = "<group>"; };
+		466E53D725F3F9330062D1EB /* MultipeerConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerConnectionManager.swift; sourceTree = "<group>"; };
 		467B47F125E9AD05005F241E /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		46A4DF1525E43C6E00D8B0DF /* MrMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MrMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46A4DF1825E43C6E00D8B0DF /* MrMusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MrMusicApp.swift; sourceTree = "<group>"; };
@@ -70,14 +72,6 @@
 			path = Bluetooth;
 			sourceTree = "<group>";
 		};
-		462B74F225ED863000AC1E57 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				462B74EF25ED861F00AC1E57 /* Bluetooth */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
 		466635B225EAEC360040CB8A /* Party Mode */ = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +87,14 @@
 				466635BB25EAF6660040CB8A /* PlaylistView.swift */,
 			);
 			path = Playlists;
+			sourceTree = "<group>";
+		};
+		466E53D625F3F4370062D1EB /* Multipeer */ = {
+			isa = PBXGroup;
+			children = (
+				466E53D725F3F9330062D1EB /* MultipeerConnectionManager.swift */,
+			);
+			path = Multipeer;
 			sourceTree = "<group>";
 		};
 		46A4DF0C25E43C6E00D8B0DF = {
@@ -115,7 +117,6 @@
 			isa = PBXGroup;
 			children = (
 				462B74FB25ED8CD600AC1E57 /* MrMusic.entitlements */,
-				462B74F225ED863000AC1E57 /* Controllers */,
 				46A4DF3525E535D700D8B0DF /* Model */,
 				46A4DF2C25E446C400D8B0DF /* Views */,
 				46A4DF1825E43C6E00D8B0DF /* MrMusicApp.swift */,
@@ -158,6 +159,8 @@
 		46A4DF3525E535D700D8B0DF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				466E53D625F3F4370062D1EB /* Multipeer */,
+				462B74EF25ED861F00AC1E57 /* Bluetooth */,
 				46A4DF3625E535E600D8B0DF /* MusicDataStore.swift */,
 			);
 			path = Model;
@@ -253,6 +256,7 @@
 				46A4DF3725E535E600D8B0DF /* MusicDataStore.swift in Sources */,
 				4655E8D325E5A39C00579051 /* MiniPlayer.swift in Sources */,
 				4666540825EC6DE00017D3D1 /* SelectDevice.swift in Sources */,
+				466E53D825F3F9330062D1EB /* MultipeerConnectionManager.swift in Sources */,
 				462B74F525ED86FE00AC1E57 /* Services.swift in Sources */,
 				46A4DF3E25E536A300D8B0DF /* LibraryRow.swift in Sources */,
 				46A4DF4625E56D6000D8B0DF /* SongsListingRow.swift in Sources */,

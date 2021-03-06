@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Blah</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_mrmusic._tcp</string>
+		<string>_mrmusic._udp</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>We need access to your local network to transfer files fast</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>We need access to bluetooth to allow others to send you songs</string>
 	<key>NSAppleMusicUsageDescription</key>

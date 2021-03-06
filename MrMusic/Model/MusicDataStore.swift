@@ -44,6 +44,7 @@ final class MusicDataStore : ObservableObject{
     }
 }
 
+#if DEBUG
 //Below is only for testing in preview mode
 class TempMediaItem : MPMediaItem{
     
@@ -86,3 +87,6 @@ class TempMediaItem : MPMediaItem{
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+#endif
+
