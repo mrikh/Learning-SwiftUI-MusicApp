@@ -34,7 +34,7 @@ struct PartyMode: View {
                 
                 HStack{
                     Image(systemName: "dot.radiowaves.left.and.right")
-                    Button("Use Bluetooth") {
+                    Button("Use CoreBluetooth") {
                         mode = .bluetooth
                     }
                     if mode == .bluetooth{
@@ -45,7 +45,7 @@ struct PartyMode: View {
                 
                 HStack{
                     Image(systemName: "network")
-                    Button("Use Network") {
+                    Button("Use Multipeer") {
                         mode = .network
                     }
                     if mode == .network{
@@ -72,14 +72,15 @@ struct PartyMode: View {
                     }
                 })
                 
+                Button("Start Scanning") {
+                    centralManager.cleanup()
+                    showDevicesListing = true
+                }
+                
                 ForEach(currentItems, id: \.persistentID){ mediaItem in
                     SongsListingRow(mediaItem: mediaItem)
                 }
                 .onMove(perform: move)
-                
-                Button("Start Scanning") {
-                    showDevicesListing = true
-                }
             }else{
                 Button(action: {
                     showingDetail.toggle()
@@ -105,10 +106,14 @@ struct PartyMode: View {
         }
         .navigationTitle("Party Mode")
         .onDisappear{
+            centralManager.cleanup()
             centralManager.stopScan()
         }
         .alert(isPresented: $centralManager.disabled){
             Alert(title: Text("Oops"), message: Text("Enable bluetooth to dynamically update playlist"), dismissButton: .default(Text("Okay")))
+        }
+        .alert(isPresented: $centralManager.showReceivedString){
+            Alert(title: Text("Oops"), message: Text("Received string: " + centralManager.receivedString), dismissButton: .default(Text("Okay")))
         }
     }
     

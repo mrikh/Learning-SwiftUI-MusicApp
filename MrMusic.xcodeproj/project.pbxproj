@@ -81,6 +81,7 @@
 		466635B225EAEC360040CB8A /* Party Mode */ = {
 			isa = PBXGroup;
 			children = (
+				4666540725EC6DE00017D3D1 /* SelectDevice.swift */,
 				466635B725EAECC80040CB8A /* PartyMode.swift */,
 			);
 			path = "Party Mode";
@@ -150,7 +151,6 @@
 				46A4DF4025E5687E00D8B0DF /* Songs */,
 				46A4DF3125E44C7000D8B0DF /* LibraryView.swift */,
 				46A4DF3D25E536A300D8B0DF /* LibraryRow.swift */,
-				4666540725EC6DE00017D3D1 /* SelectDevice.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";

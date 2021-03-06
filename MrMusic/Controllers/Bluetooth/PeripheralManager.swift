@@ -20,6 +20,8 @@ class PeripheralManager: NSObject, ObservableObject{
     private var sendDataIndex: Int = 0
     var musicItem : MPMediaItem?
     
+    @Published var showUnsubscribedAlert = false
+    
     override init(){
         super.init()
         peripheralManager = CBPeripheralManager()
@@ -63,7 +65,7 @@ class PeripheralManager: NSObject, ObservableObject{
         }
         
         export(url) { [self] (outputUrl, error) in
-            self.data = try! Data(contentsOf: outputUrl!)
+            self.data = "LOLOLOLOL".data(using: .utf8)!
             
             if self.sendDataIndex >= self.data.count {
                 // No data left.  Do nothing
@@ -159,8 +161,9 @@ extension PeripheralManager: CBPeripheralManagerDelegate{
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
-        
+
         connectedCentral = nil
+        showUnsubscribedAlert = true
     }
     
     func peripheralManagerIsReady(toUpdateSubscribers peripheral: CBPeripheralManager) {

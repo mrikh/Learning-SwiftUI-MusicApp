@@ -24,6 +24,9 @@ class CentralManager: NSObject, CBCentralManagerDelegate, ObservableObject{
     }
     
     @Published var disabled : Bool = false
+    var receivedString : String = ""
+    
+    @Published var showReceivedString : Bool = false
     
     override init(){
         super.init()
@@ -32,11 +35,37 @@ class CentralManager: NSObject, CBCentralManagerDelegate, ObservableObject{
     }
     
     func startScan(){
-        bluetoothManager.scanForPeripherals(withServices: [Services.TransferUUID], options: nil)
+        
+        let connectedPeripherals: [CBPeripheral] = bluetoothManager.retrieveConnectedPeripherals(withServices: [Services.TransferUUID])
+        
+        //reconnect to previous one as otherwise its not disconnected and doesnt restart everything
+        if let connectedPeripheral = connectedPeripherals.last {
+            selectedDevice = connectedPeripheral
+        } else {
+            // We were not connected to our counterpart, so start scanning
+            bluetoothManager.scanForPeripherals(withServices: [Services.TransferUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey: true])
+        }
     }
     
     func stopScan(){
         bluetoothManager.stopScan()
+    }
+    
+    func cleanup(){
+        
+        guard let current = self.selectedDevice, current.state == .connected else {return}
+        
+        for service in current.services ?? []{
+            for characteristic in service.characteristics ?? []{
+                if characteristic.uuid == Services.CharacteristicUUID && characteristic.isNotifying{
+                    self.selectedDevice?.setNotifyValue(false, for: characteristic)
+                }
+            }
+        }
+        
+        // If we've gotten this far, we're connected, but we're not subscribed, so we just disconnect
+        bluetoothManager.cancelPeripheralConnection(current)
+        selectedDevice = nil
     }
 }
 
@@ -76,7 +105,24 @@ extension CentralManager{
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         
-        selectedDevice = nil
+        cleanup()
+    }
+    
+    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        
+        cleanup()
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
+        
+        for services in invalidatedServices{
+            for characteristic in services.characteristics ?? [] where characteristic.uuid == Services.CharacteristicUUID {
+                // If it is, subscribe to it
+                peripheral.setNotifyValue(false, for: characteristic)
+                bluetoothManager.cancelPeripheralConnection(peripheral)
+                selectedDevice = nil
+            }
+        }
     }
 }
 
@@ -109,6 +155,12 @@ extension CentralManager : CBPeripheralDelegate{
         print("Received %d bytes: %s", characteristicData.count)
         #endif
         
+        self.receivedString += String(data: characteristicData, encoding: .utf8)!
+        
+        #if DEBUG
+        print(self.receivedString)
+        #endif
+        
         // Have we received the end-of-message token?
         if let stringFromData = String(data: characteristicData, encoding: .utf8), stringFromData == "EOM" {
             // End-of-message case: show the data.
@@ -116,7 +168,7 @@ extension CentralManager : CBPeripheralDelegate{
             // we don't know which thread this method will be called back on.
             DispatchQueue.main.async() {
                 // Write test data
-                print("yo")
+                self.showReceivedString = true
             }
         } else {
             // Otherwise, just append the data to what we have previously received.

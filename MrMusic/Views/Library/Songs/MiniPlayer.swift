@@ -59,6 +59,10 @@ struct MiniPlayer: View {
         .alert(isPresented: $peripheralManager.disabled){
             Alert(title: Text("Oops"), message: Text("Enable bluetooth to dynamically update playlist"), dismissButton: .default(Text("Okay")))
         }
+        .alert(isPresented: $peripheralManager.showUnsubscribedAlert) {
+            
+            Alert(title: Text("Oops"), message: Text("You have been unsubscribed"), dismissButton: .default(Text("Okay")))
+        }
     }
     
     private func reconfigurePlayer(_ mediaItem : MPMediaItem){
