@@ -43,6 +43,7 @@ class MultipeerConnectionManager: NSObject, ObservableObject{
         super.init()
         nearbyServiceAdvertiser.delegate = self
         nearbyServiceBrowser.delegate = self
+        session.delegate = self
     }
     
     func invitation(accept : Bool){
@@ -66,6 +67,44 @@ class MultipeerConnectionManager: NSObject, ObservableObject{
         let context = (musicItemToSend?.title ?? "Random song").data(using: .utf8)
         nearbyServiceBrowser.invitePeer(peerId, to: session, withContext: context, timeout: TimeInterval(600))
     }
+    
+    private func sendTo(_ peer: MCPeerID) {
+        getData { (data) in
+            try! self.session.send(data, toPeers: [peer], with: .reliable)
+        }
+    }
+    
+    private func getData(_ completion : @escaping (Data)->()){
+        
+        guard let item = self.musicItemToSend, let url = item.assetURL else {return}
+        export(url) { (outputUrl, error) in
+            let data = try! Data(contentsOf: outputUrl!)
+            completion(data)
+        }
+    }
+    
+    private func export(_ assetURL: URL, completionHandler: @escaping (_ fileURL: URL?, _ error: Error?) -> ()) {
+        let asset = AVURLAsset(url: assetURL)
+        guard let exporter = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetAppleM4A) else {
+            completionHandler(nil, NSError(domain: "", code: 400, userInfo: [NSLocalizedDescriptionKey : "Sorry! Something went wrong."]))
+            return
+        }
+        
+        let fileURL = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent(NSUUID().uuidString)
+            .appendingPathExtension("m4a")
+        
+        exporter.outputURL = fileURL
+        exporter.outputFileType = .m4a
+        
+        exporter.exportAsynchronously {
+            if exporter.status == .completed {
+                completionHandler(fileURL, nil)
+            } else {
+                completionHandler(nil, exporter.error)
+            }
+        }
+    }
 }
 
 extension MultipeerConnectionManager : MCNearbyServiceAdvertiserDelegate{
@@ -84,7 +123,7 @@ extension MultipeerConnectionManager : MCNearbyServiceAdvertiserDelegate{
 extension MultipeerConnectionManager : MCNearbyServiceBrowserDelegate{
     
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
-     
+        
         if !peers.contains(peerID){
             peers.append(peerID)
         }
@@ -97,3 +136,27 @@ extension MultipeerConnectionManager : MCNearbyServiceBrowserDelegate{
     }
 }
 
+extension MultipeerConnectionManager : MCSessionDelegate{
+    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+        
+        switch state {
+        case .connected:
+            sendTo(peerID)
+        default:
+            break
+        }
+    }
+    
+    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+        
+        let tempFile = TemporaryMediaFile(withData: data)
+        let media = TempMediaItem(id: 1345345345341, assetUrl : tempFile.url)
+        musicReceiveHandler?(media)
+    }
+    
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {}
+    
+    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {}
+    
+    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {}
+}

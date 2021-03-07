@@ -11,6 +11,7 @@ import SwiftUI
 
 struct PartyMode: View {
     
+    @State private var playLatest = false
     @StateObject var centralManager = CentralManager()
     @StateObject var multipeerManager = MultipeerConnectionManager()
     
@@ -31,111 +32,125 @@ struct PartyMode: View {
     
     var body: some View {
         
-        List{
-            if currentPlaylist != nil{
-                
-                HStack{
-                    Image(systemName: "dot.radiowaves.left.and.right")
-                    Button("Use CoreBluetooth") {
-                        mode = .bluetooth
-                    }
-                    if mode == .bluetooth{
-                        Spacer()
-                        Image(systemName: "checkmark")
-                    }
-                }
-                
-                HStack{
-                    Image(systemName: "network")
-                    Button("Use Multipeer") {
-                        mode = .network
-                    }
-                    if mode == .network{
-                        Spacer()
-                        Image(systemName: "checkmark")
-                    }
-                }
-                
-                Button(action: {
-                    showingDetail.toggle()
-                }, label: {
+        
+        ZStack(alignment: .bottom){
+            List{
+                if currentPlaylist != nil{
+                    
                     HStack{
-                        Text("Change Playlist")
-                        if let name = currentPlaylist?.name{
+                        Image(systemName: "dot.radiowaves.left.and.right")
+                        Button("Use CoreBluetooth") {
+                            mode = .bluetooth
+                        }
+                        if mode == .bluetooth{
                             Spacer()
-                            Text(name)
+                            Image(systemName: "checkmark")
                         }
                     }
-                })
-                .sheet(isPresented: $showingDetail, content: {
-                    PlaylistView { (playlist) in
-                        currentPlaylist = playlist
-                        showingDetail.toggle()
-                    }
-                })
-                
-                Button("Start Scanning") {
                     
-                    if mode == .bluetooth{
-                        centralManager.cleanup()
-                        showDevicesListing = true
-                    }else{
-                        multipeerManager.advertisingUpdate(start: true)
+                    HStack{
+                        Image(systemName: "network")
+                        Button("Use Multipeer") {
+                            mode = .network
+                        }
+                        if mode == .network{
+                            Spacer()
+                            Image(systemName: "checkmark")
+                        }
                     }
-                }
-                
-                ForEach(currentItems, id: \.persistentID){ mediaItem in
-                    SongsListingRow(mediaItem: mediaItem)
-                }
-                .onMove(perform: move)
-            }else{
-                Button(action: {
-                    showingDetail.toggle()
-                }, label: {
-                    Text("Choose a Playlist")
-                })
-                .sheet(isPresented: $showingDetail, content: {
-                    PlaylistView { (playlist) in
-                        currentPlaylist = playlist
+                    
+                    Button(action: {
                         showingDetail.toggle()
+                    }, label: {
+                        HStack{
+                            Text("Change Playlist")
+                            if let name = currentPlaylist?.name{
+                                Spacer()
+                                Text(name)
+                            }
+                        }
+                    })
+                    .sheet(isPresented: $showingDetail, content: {
+                        PlaylistView { (playlist) in
+                            currentPlaylist = playlist
+                            showingDetail.toggle()
+                        }
+                    })
+                    
+                    Button("Start Scanning") {
+                        
+                        if mode == .bluetooth{
+                            centralManager.cleanup()
+                            showDevicesListing = true
+                        }else{
+                            multipeerManager.advertisingUpdate(start: true)
+                        }
                     }
+                    
+                    ForEach(currentItems, id: \.persistentID){ mediaItem in
+                        SongsListingRow(mediaItem: mediaItem)
+                    }
+                    .onMove(perform: move)
+                    
+                }else{
+                    Button(action: {
+                        showingDetail.toggle()
+                    }, label: {
+                        Text("Choose a Playlist")
+                    })
+                    .sheet(isPresented: $showingDetail, content: {
+                        PlaylistView { (playlist) in
+                            currentPlaylist = playlist
+                            showingDetail.toggle()
+                        }
+                    })
+                }
+            }
+            .sheet(isPresented: $showDevicesListing){
+                SelectDevice(mode: mode) {
+                    showDevicesListing = false
+                }
+                .environmentObject(centralManager)
+            }
+            .toolbar{
+                EditButton()
+            }
+            .navigationTitle("Party Mode")
+            .onDisappear{
+                if mode == .bluetooth{
+                    centralManager.cleanup()
+                }else{
+                    multipeerManager.advertisingUpdate(start: false)
+                }
+            }
+            .onAppear{
+                multipeerManager.musicReceiveHandler = { music in
+                    currentItems.append(music)
+                    playLatest = true
+                }
+            }
+            .alert(isPresented: $centralManager.disabled){
+                Alert(title: Text("Oops"), message: Text("Enable bluetooth to dynamically update playlist"), dismissButton: .default(Text("Okay")))
+            }
+            .alert(isPresented: $centralManager.showReceivedString){
+                Alert(title: Text("Oops"), message: Text("Received string: " + centralManager.receivedString), dismissButton: .default(Text("Okay")))
+            }
+            .alert(isPresented: $multipeerManager.showAlert){
+                Alert(title: Text("Oops"), message: Text(multipeerManager.alertString ?? "Something went wrong"), primaryButton: .default(Text("Yes")){
+                    multipeerManager.invitation(accept: true)
+                }, secondaryButton: .default(Text("No")){
+                    multipeerManager.invitation(accept: false)
                 })
             }
-        }
-        .sheet(isPresented: $showDevicesListing){
-            SelectDevice(mode: mode) {
-                showDevicesListing = false
+            
+            if playLatest{
+                ZStack{
+                    Color(UIColor.systemBackground)
+                        .shadow(radius: 2.0)
+                    MiniPlayer(mediaItem: currentItems.last!)
+                }
+                .frame(height: 60.0)
             }
-            .environmentObject(centralManager)
-        }
-        .toolbar{
-            EditButton()
-        }
-        .navigationTitle("Party Mode")
-        .onDisappear{
-            if mode == .bluetooth{
-                centralManager.cleanup()
-            }else{
-                multipeerManager.advertisingUpdate(start: false)
-            }
-        }
-        .onAppear{
-            multipeerManager.musicReceiveHandler = { music in
-                currentItems.append(music)
-            }
-        }
-        .alert(isPresented: $centralManager.disabled){
-            Alert(title: Text("Oops"), message: Text("Enable bluetooth to dynamically update playlist"), dismissButton: .default(Text("Okay")))
-        }
-        .alert(isPresented: $centralManager.showReceivedString){
-            Alert(title: Text("Oops"), message: Text("Received string: " + centralManager.receivedString), dismissButton: .default(Text("Okay")))
-        }
-        .alert(isPresented: $multipeerManager.showAlert){
-            Alert(title: Text("Oops"), message: Text(multipeerManager.alertString ?? "Something went wrong"), primaryButton: .default(Text("Yes")){
-                multipeerManager.invitation(accept: true)
-            }, secondaryButton: .default(Text("No")){
-                multipeerManager.invitation(accept: false)
-            })
         }
     }
     

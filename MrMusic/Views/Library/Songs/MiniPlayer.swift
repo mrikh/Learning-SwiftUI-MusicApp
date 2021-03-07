@@ -10,11 +10,10 @@ import SwiftUI
 
 struct MiniPlayer: View {
     
+    #warning("change below property depending on what you want")
     @State private var mode : PartyMode.Mode = .network
-    @State private var showAlert : Bool = false
     let mediaItem : MPMediaItem
-    @State private var audioPlayer : AudioPlayer = AudioPlayer()
-    @State private var errorString : String?
+    @StateObject private var audioPlayer : AudioPlayer = AudioPlayer()
     @State private var isPlaying : Bool = true
     @StateObject var peripheralManager = PeripheralManager()
     @StateObject var multipeerManager = MultipeerConnectionManager()
@@ -69,8 +68,8 @@ struct MiniPlayer: View {
         .onDisappear{
             audioPlayer.clean()
         }
-        .alert(isPresented: $showAlert){
-            Alert(title: Text("Alert"), message: Text(errorString ?? "Something went wrong"), dismissButton: .default(Text("Okay")))
+        .alert(isPresented: $audioPlayer.showAlert){
+            Alert(title: Text("Alert"), message: Text(audioPlayer.errorString ?? "Something went wrong"), dismissButton: .default(Text("Okay")))
         }
         .alert(isPresented: $peripheralManager.disabled){
             Alert(title: Text("Oops"), message: Text("Enable bluetooth to dynamically update playlist"), dismissButton: .default(Text("Okay")))
@@ -80,9 +79,7 @@ struct MiniPlayer: View {
             Alert(title: Text("Oops"), message: Text("You have been unsubscribed"), dismissButton: .default(Text("Okay")))
         }
         .sheet(isPresented: $showSelect) {
-            SelectDevice(mode: .network){
-                showAlert = false
-            }
+            SelectDevice(mode: mode)
             .environmentObject(CentralManager())
             .environmentObject(multipeerManager)
         }
@@ -91,10 +88,7 @@ struct MiniPlayer: View {
     private func reconfigurePlayer(_ mediaItem : MPMediaItem){
         
         if let url = mediaItem.assetURL{
-            errorString = self.audioPlayer.configure(url: url)
-            showAlert = errorString != nil
-        }else{
-            showAlert = true
+            self.audioPlayer.configure(url: url)
         }
     }
 }

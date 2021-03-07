@@ -7,20 +7,23 @@
 
 import MediaPlayer
 
-class AudioPlayer{
+class AudioPlayer : ObservableObject{
     
     private var audioPlayer : AVAudioPlayer?
     
-    func configure(url : URL) -> String?{
+    var errorString : String?
+    @Published var showAlert = false
+    
+    func configure(url : URL){
         
         do{
             self.audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.prepareToPlay()
             audioPlayer?.volume = 0.3
             self.play()
-            return nil
         }catch{
-            return error.localizedDescription
+            errorString = error.localizedDescription
+            showAlert = true
         }
     }
     

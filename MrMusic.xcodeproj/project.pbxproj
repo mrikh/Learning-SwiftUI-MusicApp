@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		462B74ED25ED861B00AC1E57 /* PeripheralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B74EC25ED861B00AC1E57 /* PeripheralManager.swift */; };
 		462B74F525ED86FE00AC1E57 /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B74F425ED86FE00AC1E57 /* Services.swift */; };
+		4645DBD225F4448900F3C66B /* TemporaryMediaFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4645DBD125F4448900F3C66B /* TemporaryMediaFile.swift */; };
 		4655E8D325E5A39C00579051 /* MiniPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4655E8D225E5A39B00579051 /* MiniPlayer.swift */; };
 		466635B825EAECC80040CB8A /* PartyMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466635B725EAECC80040CB8A /* PartyMode.swift */; };
 		466635BC25EAF6660040CB8A /* PlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466635BB25EAF6660040CB8A /* PlaylistView.swift */; };
@@ -31,6 +32,7 @@
 		462B74EC25ED861B00AC1E57 /* PeripheralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralManager.swift; sourceTree = "<group>"; };
 		462B74F425ED86FE00AC1E57 /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
 		462B74FB25ED8CD600AC1E57 /* MrMusic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MrMusic.entitlements; sourceTree = "<group>"; };
+		4645DBD125F4448900F3C66B /* TemporaryMediaFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryMediaFile.swift; sourceTree = "<group>"; };
 		4655E8D225E5A39B00579051 /* MiniPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayer.swift; sourceTree = "<group>"; };
 		466635B725EAECC80040CB8A /* PartyMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyMode.swift; sourceTree = "<group>"; };
 		466635BB25EAF6660040CB8A /* PlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistView.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				466E53D625F3F4370062D1EB /* Multipeer */,
 				462B74EF25ED861F00AC1E57 /* Bluetooth */,
 				46A4DF3625E535E600D8B0DF /* MusicDataStore.swift */,
+				4645DBD125F4448900F3C66B /* TemporaryMediaFile.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 				46A4DF4625E56D6000D8B0DF /* SongsListingRow.swift in Sources */,
 				4666540225EC2D630017D3D1 /* CentralManager.swift in Sources */,
 				466635B825EAECC80040CB8A /* PartyMode.swift in Sources */,
+				4645DBD225F4448900F3C66B /* TemporaryMediaFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

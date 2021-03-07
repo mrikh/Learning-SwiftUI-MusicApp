@@ -44,11 +44,11 @@ final class MusicDataStore : ObservableObject{
     }
 }
 
-#if DEBUG
 //Below is only for testing in preview mode
 class TempMediaItem : MPMediaItem{
     
     private let tempId : Int
+    private let tempAssetUrl : URL?
     
     override var title: String?{
         "Adam Jensen - I can hold a grudge like nobody's business"
@@ -63,7 +63,7 @@ class TempMediaItem : MPMediaItem{
     }
     
     override var assetURL: URL?{
-        return nil
+        return tempAssetUrl
     }
     
     override var persistentID: MPMediaEntityPersistentID{
@@ -80,6 +80,13 @@ class TempMediaItem : MPMediaItem{
     
     init(id : Int){
         self.tempId = id
+        self.tempAssetUrl = nil
+        super.init()
+    }
+    
+    init(id : Int, assetUrl : URL?){
+        self.tempId = id
+        self.tempAssetUrl = assetUrl
         super.init()
     }
     
@@ -87,6 +94,4 @@ class TempMediaItem : MPMediaItem{
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-#endif
 
